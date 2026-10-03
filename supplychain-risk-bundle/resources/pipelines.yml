@@ -1,0 +1,15 @@
+resources:
+  pipelines:
+    sc_orders_pipeline:
+      name: "sc-orders-pipeline"
+      clusters:
+        - label: "default"
+          num_workers: 1
+      libraries:
+        - notebook:
+            path: ./notebooks/02_enrich_orders
+        - notebook:
+            path: ./notebooks/03_detect_risk
+      configuration:
+        pipeline_mode: "triggered"
+        alert_threshold: "high"

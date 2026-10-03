@@ -1,0 +1,18 @@
+bundle:
+  name: "supplychain-risk-bundle"
+include:
+  - resources/*.yml
+  - resources/*/*.yml
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://dbc-9e617959-ab55.cloud.databricks.com
+  prod:
+    mode: production
+    workspace:
+      host: https://dbc-9e617959-ab55.cloud.databricks.com
+      root_path: /Users/tchafik@gmail.com/.bundle//
+    run_as:
+      user_name: tchafik@gmail.com

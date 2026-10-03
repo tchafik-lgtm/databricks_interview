@@ -1,0 +1,10 @@
+resources:
+  clusters:
+    remediation_cluster:
+      name: "remediation-cluster"
+      spark_version: 12.2.x-scala2.12
+      node_type_id: m4.4xlarge
+      autotermination_minutes: 120
+      autoscale:
+        min_workers: 2
+        max_workers: 10
