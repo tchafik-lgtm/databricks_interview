@@ -1,6 +1,0 @@
-resources:
-  dashboards:
-    sc_risk_dashboard:
-      name: "Supply Chain Risk Overview"
-      query:
-        notebook_path: ./notebooks/06_dashboard_driver
