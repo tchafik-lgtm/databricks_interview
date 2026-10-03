@@ -1,0 +1,42 @@
+resources:
+  jobs:
+    ingest_events_job:
+      name: "sc-ingest-events-job"
+      schedule:
+        quartz_cron_expression: "0 */5 * * * ?"
+        timezone_id: "UTC"
+      tasks:
+        - task_key: ingest_raw_events
+          notebook_task:
+            notebook_path: ./notebooks/01_ingest_raw_events
+          job_cluster_key: bad_cluster
+      job_clusters:
+        - job_cluster_key: bad_cluster
+          new_cluster:
+            spark_version: 12.2.x-scala2.12
+            node_type_id: i3.xlarge
+            autoscale:
+              min_workers: 4
+              max_workers: 12
+            custom_tags:
+              owner: "unknown"
+
+    risk_detection_job:
+      name: "sc-risk-detection-job"
+      tasks:
+        - task_key: enrich_orders
+          notebook_task:
+            notebook_path: ./notebooks/02_enrich_orders
+          job_cluster_key: bad_cluster
+        - task_key: detect_risk
+          depends_on:
+            - enrich_orders
+          notebook_task:
+            notebook_path: ./notebooks/03_detect_risk
+          job_cluster_key: bad_cluster
+        - task_key: generate_alerts
+          depends_on:
+            - detect_risk
+          notebook_task:
+            notebook_path: ./notebooks/04_generate_alerts
+          job_cluster_key: bad_cluster
